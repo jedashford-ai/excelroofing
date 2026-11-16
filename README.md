@@ -30,3 +30,7 @@ The `roof-enquiry` form uses Netlify Forms with a honeypot. Failed requests disp
 ## Before production
 
 Confirm business contact details, service wording, privacy notice and enquiry handling with the client. The demo privacy page explicitly requests test details. No reviews, accreditations or guarantees are invented. No analytics or marketing scripts are installed.
+
+### Enquiry verification status
+
+The deployed form is detected by Netlify and returns a successful POST response. However, the accepted submission counter remained at zero for the labelled test enquiries. Review Netlify Forms including spam before relying on enquiry capture. Detailed submission inspection was not completed. Phone and WhatsApp links are available independently.
