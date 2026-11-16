@@ -23,7 +23,7 @@ The demo deliberately sends `noindex, nofollow` via HTML and response headers an
 
 Content is in `src/pages/index.astro`, styles in `public/styles.css`, behaviour in `src/scripts/site.js`. Photographs and original logo are in `public/images`.
 
-Logo intro runs once per browser tab session with a skip control. Reduced-motion preferences disable intro, pan and scroll reveals. Background motion also has a pause button. Project photographs open in a keyboard-accessible native dialog.
+Logo intro runs once per browser tab session with a skip control. Reduced-motion preferences disable intro, pan and scroll reveals. Project photographs open in a keyboard-accessible native dialog.
 
 The `roof-enquiry` form uses Netlify Forms with a honeypot. Failed requests display a retry/call message; successful requests go to `/thank-you`. Submissions are available in the Netlify dashboard. Client email notifications have not been configured.
 

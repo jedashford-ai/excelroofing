@@ -74,10 +74,7 @@ if (!reduced.matches && 'IntersectionObserver' in window) {
  const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.07});
  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 }
-const motion = document.querySelector('.motion-toggle');
-motion.addEventListener('click',()=>{const paused=document.querySelector('.hero').classList.toggle('paused');motion.setAttribute('aria-pressed',String(paused));motion.setAttribute('aria-label',paused?'Play background motion':'Pause background motion');motion.textContent=paused?'Play':'Pause';});
-if(reduced.matches)motion.hidden=true;
-reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');motion.hidden=true;}else{motion.hidden=false;}});
+reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');}});
 const gallery = document.querySelector('#gallery');
 document.querySelectorAll('.project').forEach(button=>button.addEventListener('click',()=>{gallery.querySelector('img').src=button.dataset.image;gallery.querySelector('img').alt=button.querySelector('img').alt;gallery.querySelector('p').textContent=button.dataset.caption;gallery.showModal();}));
 gallery.querySelector('.gallery-close').addEventListener('click',()=>gallery.close());
