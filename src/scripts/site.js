@@ -33,7 +33,7 @@ if (!reduced.matches && 'IntersectionObserver' in window) {
  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 }
 const motion = document.querySelector('.motion-toggle');
-motion.addEventListener('click',()=>{const paused=document.querySelector('.hero').classList.toggle('paused');motion.setAttribute('aria-pressed',String(paused));motion.setAttribute('aria-label',paused?'Play background motion':'Pause background motion');motion.textContent=paused?'▷':'Ⅱ';});
+motion.addEventListener('click',()=>{const paused=document.querySelector('.hero').classList.toggle('paused');motion.setAttribute('aria-pressed',String(paused));motion.setAttribute('aria-label',paused?'Play background motion':'Pause background motion');motion.textContent=paused?'Play':'Pause';});
 if(reduced.matches)motion.hidden=true;
 reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');motion.hidden=true;}else{motion.hidden=false;}});
 const gallery = document.querySelector('#gallery');
