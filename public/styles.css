@@ -62,3 +62,12 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 @media(max-width:380px){.direct-call strong{font-size:31px}.alternative-call>a{font-size:18px}}
 
 .number,.project-index,.process li>span{color:#586a80}
+
+/* An explicit phone action makes the primary contact card unmistakably clickable. */
+.direct-call{cursor:pointer;border:1px solid #b5d4e6}
+.direct-call strong{margin-bottom:24px}
+.call-action{display:flex;justify-content:center;align-items:center;gap:11px;min-height:54px;padding:15px 20px;border-radius:4px;background:#10264d;color:#fff;font-size:15px;font-weight:600;box-shadow:0 3px 8px #10264d20;transition:background .2s,box-shadow .2s}
+.call-action svg{width:21px;height:21px;flex-shrink:0}
+.direct-call:hover .call-action,.direct-call:focus-visible .call-action{background:#214573;box-shadow:0 4px 12px #10264d30}
+.direct-call:active .call-action{background:#081a35;box-shadow:inset 0 2px 4px #0002}
+@media(max-width:760px){.call-action{font-size:14px;min-height:54px;padding-inline:12px}}
