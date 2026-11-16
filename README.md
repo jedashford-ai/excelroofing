@@ -23,14 +23,13 @@ The demo deliberately sends `noindex, nofollow` via HTML and response headers an
 
 Content is in `src/pages/index.astro`, styles in `public/styles.css`, behaviour in `src/scripts/site.js`. Photographs and original logo are in `public/images`.
 
-Logo intro runs once per browser tab session with a skip control. Reduced-motion preferences disable intro, pan and scroll reveals. Project photographs open in a keyboard-accessible native dialog.
+Logo intro runs once per browser tab session with a skip control. Reduced-motion preferences disable intro, pan and scroll reveals. 
 
-The `roof-enquiry` form uses Netlify Forms with a honeypot. Failed requests display a retry/call message; successful requests go to `/thank-you`. Submissions are available in the Netlify dashboard. Client email notifications have not been configured.
+Contact is directly with Stuart: mobile telephone first, landline second, or WhatsApp with a URL-encoded suggested message. The WhatsApp link opens a draft; it never sends a message automatically. No enquiry form or submission JavaScript is shipped. The legacy `/thank-you` URL redirects to the contact section.
+
+Project photographs are non-interactive. Hover zoom affects the photograph only; captions remain still.
 
 ## Before production
 
-Confirm business contact details, service wording, privacy notice and enquiry handling with the client. The demo privacy page explicitly requests test details. No reviews, accreditations or guarantees are invented. No analytics or marketing scripts are installed.
+Confirm business contact details, service wording, privacy notice and telephone numbers and WhatsApp availability with the client. The demo privacy page explicitly requests test details. No reviews, accreditations or guarantees are invented. No analytics or marketing scripts are installed.
 
-### Enquiry verification status
-
-The deployed form is detected by Netlify and returns a successful POST response. However, the accepted submission counter remained at zero for the labelled test enquiries. Review Netlify Forms including spam before relying on enquiry capture. Detailed submission inspection was not completed. Phone and WhatsApp links are available independently.

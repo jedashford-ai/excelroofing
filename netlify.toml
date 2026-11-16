@@ -13,3 +13,8 @@ Referrer-Policy = "strict-origin-when-cross-origin"
 for = "/images/*"
 [headers.values]
 Cache-Control = "public, max-age=86400"
+
+[[redirects]]
+from = "/thank-you"
+to = "/#contact"
+status = 301

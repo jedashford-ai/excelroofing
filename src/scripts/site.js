@@ -54,13 +54,13 @@ const floatingCall = document.querySelector('.floating-call');
 const hero = document.querySelector('.hero');
 function updateFloatingCall() {
  const headerBottom = document.querySelector('.header').getBoundingClientRect().bottom;
- const formRect = document.querySelector('.quote-form').getBoundingClientRect();
- const formVisible = formRect.top < innerHeight && formRect.bottom > headerBottom;
- floatingCall.hidden = hero.getBoundingClientRect().bottom > headerBottom || formVisible;
+ const contactRect = document.querySelector('.contact-options').getBoundingClientRect();
+ const contactVisible = contactRect.top < innerHeight && contactRect.bottom > headerBottom;
+ floatingCall.hidden = hero.getBoundingClientRect().bottom > headerBottom || contactVisible;
 }
 const heroObserver = new IntersectionObserver(updateFloatingCall, {rootMargin:`-${document.querySelector('.header').offsetHeight}px 0px 0px 0px`});
 heroObserver.observe(hero);
-heroObserver.observe(document.querySelector('.quote-form'));
+heroObserver.observe(document.querySelector('.contact-options'));
 window.addEventListener('resize',updateFloatingCall);
 updateFloatingCall();
 const menu = document.querySelector('.menu-toggle');
@@ -75,19 +75,3 @@ if (!reduced.matches && 'IntersectionObserver' in window) {
  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 }
 reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');}});
-const gallery = document.querySelector('#gallery');
-document.querySelectorAll('.project').forEach(button=>button.addEventListener('click',()=>{gallery.querySelector('img').src=button.dataset.image;gallery.querySelector('img').alt=button.querySelector('img').alt;gallery.querySelector('p').textContent=button.dataset.caption;gallery.showModal();}));
-gallery.querySelector('.gallery-close').addEventListener('click',()=>gallery.close());
-gallery.addEventListener('click',e=>{if(e.target===gallery){const r=gallery.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)gallery.close();}});
-document.querySelectorAll('[data-service]').forEach(link=>link.addEventListener('click',()=>{document.querySelector('#service').value=link.dataset.service;}));
-const form=document.querySelector('.quote-form');
-form.addEventListener('submit',async e=>{
- e.preventDefault();
- const submit=form.querySelector('[type="submit"]');const status=document.querySelector('#form-status');
- submit.disabled=true;status.textContent='Sending your enquiry…';
- try {
-  const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()});
-  if(!response.ok)throw new Error('Submission failed');
-  window.location.assign('/thank-you');
- } catch {status.textContent='Your enquiry could not be sent. Please try again, or call 07973 673255.';submit.disabled=false;}
-});

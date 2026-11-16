@@ -37,3 +37,8 @@ Netlify submission capture and deployed HTTP checks are performed after deployme
 - Main contact and call prompt use 07973 673255; landline remains secondary.
 - Floating call prompt appears after the hero, hides when returning to the hero, and hides while the enquiry form is visible.
 - Desktop/mobile checks passed: no JavaScript errors or horizontal overflow, correct telephone link, reduced-motion intro bypass and call-prompt visibility verified.
+
+
+## Direct contact and static project gallery (current)
+
+Supersedes the historical form and lightbox checks above. The enquiry form, submission handler and lightbox have been removed. Mobile calling is primary; the landline has no office label. WhatsApp opens an editable prefilled message to Stuart. No message is sent during verification. Stuart is named in the about, process, contact and call-to-action copy. Project cards are articles with no click behaviour or moving captions; image hover zoom remains.
