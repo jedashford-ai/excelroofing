@@ -1,26 +1,46 @@
-<fieldset class="van-story">
-  <legend>Excel Roofing through the years</legend>
-  <input id="van-early" type="radio" name="van-era" checked />
-  <input id="van-today" type="radio" name="van-era" />
-  <div class="photos">
-    <img class="archive" src="/images/van-early-days.webp" alt="Blue Excel Roofing van with the business name painted on the bonnet" width="900" height="788" loading="lazy" />
-    <img class="current" src="/images/van-today.webp" alt="White Excel Roofing van bearing the Established 1989 badge" width="900" height="787" loading="lazy" />
-  </div>
-  <div class="switch">
-    <label for="van-early">The early days</label>
-    <label for="van-today">Today</label>
-  </div>
-</fieldset>
+<div class="van-story">
+  <img class="modern" src="/images/van-today.webp" alt="Today's white Excel Roofing van with the Established 1989 badge on its bonnet" width="900" height="787" loading="lazy" />
+  <figure class="archive-print">
+    <img src="/images/van-early-days.webp" alt="An earlier blue van with Excel Roofing painted across the bonnet" width="900" height="788" loading="lazy" />
+    <figcaption>The early days</figcaption>
+  </figure>
+</div>
+
 <style>
-  .van-story { min-width: 0; width: 100%; padding: 0; margin: 0; border: 0; }
-  legend, input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-  .photos { position: relative; aspect-ratio: 8 / 7; overflow: hidden; background: #152942; }
-  .photos img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 400ms ease, visibility 400ms; }
-  .current, #van-today:checked ~ .photos .archive { opacity: 0; visibility: hidden; }
-  #van-today:checked ~ .photos .current { opacity: 1; visibility: visible; }
-  .switch { display: flex; width: fit-content; max-width: 100%; margin: 14px auto 0; padding: 4px; background: #edf3f7; border: 1px solid #cbd9e2; border-radius: 32px; }
-  label { display: grid; place-items: center; min-height: 44px; padding: 0 20px; border-radius: 24px; color: #10264d; font-size: 14px; font-weight: 600; cursor: pointer; }
-  #van-early:checked ~ .switch [for="van-early"], #van-today:checked ~ .switch [for="van-today"] { background: #10264d; color: white; }
-  #van-early:focus-visible ~ .switch [for="van-early"], #van-today:focus-visible ~ .switch [for="van-today"] { outline: 2px solid #176b9e; outline-offset: 2px; }
-  @media (prefers-reduced-motion: reduce) { .photos img { transition: none; } }
+  .van-story {
+    display: flow-root;
+    min-width: 0;
+  }
+  .modern {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .archive-print {
+    position: relative;
+    box-sizing: border-box;
+    width: clamp(128px, 37%, 220px);
+    margin: max(-16%, -100px) 4% 0 auto;
+    padding: 7px 7px 0;
+    background: #fffdfa;
+    box-shadow: 0 3px 14px rgb(16 38 77 / 18%);
+    transform: rotate(3deg);
+  }
+  .archive-print img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .archive-print figcaption {
+    padding: 8px 0 10px;
+    color: #25354a;
+    font: italic clamp(15px, 1.2vw, 19px)/1.2 Georgia, serif;
+    text-align: center;
+  }
+  @media (max-width: 700px) {
+    .archive-print {
+      margin-top: -11%;
+      padding: 5px 5px 0;
+    }
+  }
 </style>
