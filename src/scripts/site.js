@@ -75,3 +75,14 @@ if (!reduced.matches && 'IntersectionObserver' in window) {
  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 }
 reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');}});
+
+const projectSection = document.querySelector('#work');
+const projectToggle = document.querySelector('.projects-toggle');
+projectSection.classList.add('gallery-ready');
+projectToggle.hidden = false;
+projectToggle.addEventListener('click', () => {
+ const expanded = projectSection.classList.toggle('projects-expanded');
+ projectToggle.setAttribute('aria-expanded', String(expanded));
+ projectToggle.textContent = expanded ? 'Show fewer projects' : 'Show more projects';
+ if (!expanded) projectToggle.scrollIntoView({block:'nearest', behavior:'instant'});
+});

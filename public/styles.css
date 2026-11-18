@@ -81,3 +81,35 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 @media(max-width:760px){.floating-call{right:max(12px,env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));padding:10px 14px;gap:10px;min-height:62px;border-radius:10px}.floating-call-icon{width:36px;height:36px}.floating-call-icon svg{width:20px;height:20px}.floating-call strong{font-size:14px}}
 
 .service-card{display:block;cursor:pointer}.service-card:hover .text-link{color:#246385;border-color:currentColor}
+
+/* Equal service columns, with centred labels at every breakpoint. */
+.service-strip{grid-template-columns:repeat(3,minmax(0,1fr));padding:24px clamp(12px,5.6vw,90px)}
+.service-strip a,.service-strip a:first-child,.service-strip a:last-child{justify-content:center;text-align:center;min-width:0;min-height:48px;padding:8px 10px;font-size:clamp(14px,2.1vw,23px);line-height:1.25;white-space:nowrap}
+.service-description-short,.projects-toggle{display:none}
+@media(max-width:760px){
+ .service-strip{padding:14px 4%}
+ .service-strip a,.service-strip a:first-child,.service-strip a:last-child{padding:8px 4px;font-size:clamp(13px,3.5vw,18px);min-height:44px}
+ .section{padding:48px 6%}
+ .section-heading{margin-bottom:26px}
+ .section-heading>p{margin-top:18px}
+ .about{gap:28px}
+ .about-copy>p.lead{margin-top:22px}
+ .signature{margin-top:25px;padding-top:22px}
+ .service-grid{gap:12px}
+ .service-card{padding:22px 24px}
+ .service-card svg{width:44px;height:32px;margin-bottom:16px}
+ .service-card .number{right:24px;top:24px}
+ .service-card h3{font-size:25px;margin-bottom:11px}
+ .service-card p{min-height:0;font-size:14px;line-height:1.55}
+ .service-description-long{display:none}
+ .service-description-short{display:inline}
+ .service-card .text-link{margin-top:12px;padding-top:7px;padding-bottom:6px}
+ .project-grid{gap:27px}
+ .project-caption{padding-top:15px}
+ .gallery-ready:not(.projects-expanded) .project:nth-child(n+3){display:none}
+ .projects-toggle:not([hidden]){display:flex;margin:28px auto 0;min-height:48px;border:1px solid #10264d;background:#fff;color:#10264d;padding:14px 24px;font-size:14px}
+ .projects-toggle:hover{background:#dceffa}
+ .process{gap:28px}
+ .process li{padding:20px 0}
+ .contact{gap:30px}
+}
