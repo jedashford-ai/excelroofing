@@ -52,16 +52,14 @@ if ((!seen || replayIntro) && !reduced.matches) {
 }
 const floatingCall = document.querySelector('.floating-call');
 const hero = document.querySelector('.hero');
+const siteHeader = document.querySelector('.header');
 function updateFloatingCall() {
- const headerBottom = document.querySelector('.header').getBoundingClientRect().bottom;
- const contactRect = document.querySelector('.direct-call').getBoundingClientRect();
- const contactVisible = contactRect.top < innerHeight && contactRect.bottom > headerBottom;
- floatingCall.hidden = hero.getBoundingClientRect().bottom > headerBottom || contactVisible;
+ const heroBottom = hero.getBoundingClientRect().bottom;
+ floatingCall.hidden = heroBottom > siteHeader.getBoundingClientRect().bottom;
 }
-const heroObserver = new IntersectionObserver(updateFloatingCall, {rootMargin:`-${document.querySelector('.header').offsetHeight}px 0px 0px 0px`});
-heroObserver.observe(hero);
-heroObserver.observe(document.querySelector('.direct-call'));
-window.addEventListener('resize',updateFloatingCall);
+window.addEventListener('scroll', updateFloatingCall, { passive: true });
+window.addEventListener('resize', updateFloatingCall);
+window.addEventListener('pageshow', updateFloatingCall);
 updateFloatingCall();
 const menu = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#navigation');
