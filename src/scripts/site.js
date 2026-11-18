@@ -19,7 +19,6 @@ try { seen = sessionStorage.getItem('excel-intro-v2') === 'seen'; sessionStorage
 const replayIntro = new URLSearchParams(window.location.search).get('intro') === 'replay';
 if ((!seen || replayIntro) && !reduced.matches) {
  intro.hidden = false;
- document.querySelector('#skip-intro').tabIndex = 0;
  const logo = intro.querySelector('.intro-logo');
  const ease = 'cubic-bezier(.65,0,.35,1)';
  const roofs = [...logo.querySelectorAll('.intro-roof')].reverse();
@@ -46,7 +45,6 @@ if ((!seen || replayIntro) && !reduced.matches) {
    document.querySelector('.hero').classList.add('hero-arriving');
   }).catch(endIntro);
  },1750);
- document.querySelector('#skip-intro').addEventListener('click',endIntro);
  window.addEventListener('keydown',endIntro,{once:true});
  // A mobile browser toolbar changing height should not interrupt the drawing.
  const initialWidth = innerWidth;
