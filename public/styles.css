@@ -156,3 +156,26 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 /* Balanced service cards with comfortable reading widths. */
 .service-card p{max-width:440px}
 @media(min-width:761px){.service-card p{min-height:70px}.service-card{padding:36px}.service-card .text-link{justify-content:flex-start}}
+
+.material-spotlight {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  padding-bottom: 0;
+}
+.material-photo { position: relative; }
+.material-photo img { position: absolute; width: 100%; height: 100%; object-position: 55% 65%; }
+.material-panel { background: #dceffa; padding: clamp(28px, 4vw, 64px); }
+.material-panel h2 { font-size: clamp(33px, 3.5vw, 54px); max-width: 14em; }
+.material-panel p, .material-specs dd { font-size: 16px; line-height: 1.55; color: #314a65; }
+.material-panel p { margin-top: 18px; max-width: 54ch; }
+.material-specs { margin: 26px 0 12px; }
+.material-specs div { border-top: 1px solid #afcad9; padding: 14px 0; }
+.material-specs dt { font-weight: 700; }
+.material-specs dd { margin: 4px 0 0; }
+.material-sheet { display: inline-block; padding: 12px 0; font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 760px) {
+  .material-spotlight { grid-template-columns: 1fr; }
+  .material-photo { height: clamp(140px, 40vw, 220px); }
+  .material-panel { padding: 25px clamp(17px, 5vw, 32px) 17px; }
+  .material-specs { margin-top: 20px; }
+}
