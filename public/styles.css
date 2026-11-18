@@ -23,14 +23,14 @@
 .intro-outline{fill-opacity:0;stroke:#10264d;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
 .intro-tagline{opacity:0}
 .intro-caption{top:calc(50% + 165px)}
-.floating-call{position:fixed;right:26px;bottom:24px;z-index:25;display:flex;align-items:center;gap:13px;padding:14px 20px;background:#dceffa;color:#10264d;border:1px solid #a6c5da;border-radius:8px;box-shadow:0 6px 25px #06132625;animation:call-arrive .3s ease both;transition:background .2s,box-shadow .2s}
+.floating-call{position:fixed;right:26px;bottom:24px;z-index:25;display:flex;align-items:center;gap:13px;padding:14px 20px;background:#dceffa;color:#10264d;border:1px solid #a6c5da;border-radius:8px;box-shadow:0 6px 25px #06132625;animation:call-arrive .16s ease both;transition:background .2s,box-shadow .2s}
 .floating-call[hidden]{display:none}
 .floating-call svg{width:23px;height:23px;flex-shrink:0}
 .floating-call small{display:block;font-size:10px;letter-spacing:.02em;margin-bottom:4px}
 .floating-call strong{display:block;font-size:16px;font-weight:600;letter-spacing:-.02em}
 .floating-call:hover{background:#fff;box-shadow:0 8px 30px #06132635}
 body:has(dialog[open]) .floating-call{visibility:hidden}
-@keyframes call-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes call-arrive{from{opacity:0}to{opacity:1}}
 @media(max-width:760px){.intro-caption{top:calc(50% + 125px);font-size:8px}.floating-call{right:16px;bottom:max(16px,env(safe-area-inset-bottom));padding:11px 15px;gap:10px}.floating-call strong{font-size:14px}.floating-call svg{width:20px;height:20px}footer{padding-bottom:110px}.submit{scroll-margin-bottom:105px}}
 
 /* Direct contact with Stuart, with mobile calling given priority. */
@@ -248,4 +248,44 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 @keyframes hero-enter {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  #intro:not([hidden]) ~ main .hero-image {
+    clip-path: inset(0 100% 0 0);
+  }
+  #intro.leaving:not([hidden]) ~ main .hero-image {
+    clip-path: inset(0);
+    transition: clip-path 400ms cubic-bezier(.3,0,.2,1) 380ms;
+  }
+  .js-motion .van-story .modern {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 650ms cubic-bezier(.25,.7,.25,1);
+  }
+  .js-motion .van-story.visible .modern { clip-path: inset(0); }
+  .js-motion .van-story .archive-print {
+    opacity: 0;
+    transition: opacity 250ms ease 220ms;
+  }
+  .js-motion .van-story.visible .archive-print { opacity: 1; }
+  .js-motion .material-specs > div {
+    position: relative;
+    border-top-color: transparent;
+  }
+  .js-motion .material-specs > div::before {
+    content: "";
+    position: absolute;
+    inset: -1px 0 auto;
+    height: 1px;
+    background: #afcad9;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 420ms ease-out;
+  }
+  .js-motion .material-specs > .visible::before { transform: scaleX(1); }
+  @media (max-width: 760px) {
+    #intro.leaving:not([hidden]) ~ main .hero-image { transition-duration: 300ms; }
+    .js-motion .van-story .modern { transition-duration: 420ms; }
+    .js-motion .material-specs > div::before { transition-duration: 300ms; }
+  }
 }

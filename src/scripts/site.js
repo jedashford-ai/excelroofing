@@ -74,7 +74,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
 if (!reduced.matches && 'IntersectionObserver' in window) {
  document.documentElement.classList.add('js-motion');
  const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.07});
- document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+ document.querySelectorAll('.reveal, .van-story, .material-specs > div').forEach(el=>observer.observe(el));
 }
 reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');}});
 
