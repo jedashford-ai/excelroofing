@@ -14,11 +14,8 @@ function animateIntro(element, frames, options) {
  introAnimations.add(animation);
  return animation;
 }
-let seen = false;
-try { seen = sessionStorage.getItem('excel-intro-v2') === 'seen'; sessionStorage.setItem('excel-intro-v2', 'seen'); } catch {}
-const replayIntro = new URLSearchParams(window.location.search).get('intro') === 'replay';
-if ((!seen || replayIntro) && !reduced.matches) {
- intro.hidden = false;
+if (!intro.hidden && !reduced.matches) {
+ try { sessionStorage.setItem('excel-intro-v2', 'seen'); } catch {}
  const logo = intro.querySelector('.intro-logo');
  const ease = 'cubic-bezier(.65,0,.35,1)';
  const roofs = [...logo.querySelectorAll('.intro-roof')].reverse();
@@ -69,10 +66,9 @@ function closeMenu(){menu.setAttribute('aria-expanded','false');nav.classList.re
 menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('open',open);menu.querySelector('span').textContent=open?'−':'＋';});
 nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
-if (!reduced.matches && 'IntersectionObserver' in window) {
- document.documentElement.classList.add('js-motion');
+if (document.documentElement.classList.contains('js-motion')) {
  const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.07});
- document.querySelectorAll('.reveal, .material-specs > div').forEach(el=>observer.observe(el));
+ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
  // Observe each print after decoding so slow images cannot miss their entrance.
  const photoObserver = new IntersectionObserver(entries => {
@@ -92,6 +88,7 @@ if (!reduced.matches && 'IntersectionObserver' in window) {
   }
  });
 }
+clearTimeout(window.excelMotionFallback);
 reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');}});
 
 // Native horizontal scrolling preserves normal vertical touch scrolling.
