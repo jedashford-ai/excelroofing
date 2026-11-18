@@ -194,3 +194,28 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
   .material-panel { padding: 25px clamp(17px, 5vw, 32px) 17px; }
   .material-specs { margin-top: 20px; }
 }
+
+.hero-description { max-width: 47ch; }
+.hero-copy strong { color: #c9ebfc; }
+.quality-label {
+  display: inline-flex;
+  padding: 7px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #93b7ca;
+  border-radius: 20px;
+  background: #f3faff;
+  color: #173951;
+  font-size: 13px;
+  font-weight: 600;
+}
+.contact-email {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  padding-top: 18px;
+  margin-top: 20px;
+  border-top: 1px solid #9eb9c9;
+  font-size: 14px;
+}
+.contact-email a { text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
