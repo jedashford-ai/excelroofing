@@ -54,13 +54,13 @@ const floatingCall = document.querySelector('.floating-call');
 const hero = document.querySelector('.hero');
 function updateFloatingCall() {
  const headerBottom = document.querySelector('.header').getBoundingClientRect().bottom;
- const contactRect = document.querySelector('.contact-options').getBoundingClientRect();
+ const contactRect = document.querySelector('.direct-call').getBoundingClientRect();
  const contactVisible = contactRect.top < innerHeight && contactRect.bottom > headerBottom;
  floatingCall.hidden = hero.getBoundingClientRect().bottom > headerBottom || contactVisible;
 }
 const heroObserver = new IntersectionObserver(updateFloatingCall, {rootMargin:`-${document.querySelector('.header').offsetHeight}px 0px 0px 0px`});
 heroObserver.observe(hero);
-heroObserver.observe(document.querySelector('.contact-options'));
+heroObserver.observe(document.querySelector('.direct-call'));
 window.addEventListener('resize',updateFloatingCall);
 updateFloatingCall();
 const menu = document.querySelector('.menu-toggle');
