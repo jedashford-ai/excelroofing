@@ -262,12 +262,12 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
     clip-path: inset(0 100% 0 0);
     transition: clip-path 650ms cubic-bezier(.25,.7,.25,1);
   }
-  .js-motion .van-story.visible .modern { clip-path: inset(0); }
+  .js-motion .van-story .modern-frame.visible .modern { clip-path: inset(0); }
   .js-motion .van-story .archive-print {
     opacity: 0;
-    transition: opacity 250ms ease 220ms;
+    transition: opacity 350ms ease;
   }
-  .js-motion .van-story.visible .archive-print { opacity: 1; }
+  .js-motion .van-story .archive-print.visible { opacity: 1; }
   .js-motion .material-specs > div {
     position: relative;
     border-top-color: transparent;

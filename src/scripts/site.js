@@ -74,7 +74,25 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
 if (!reduced.matches && 'IntersectionObserver' in window) {
  document.documentElement.classList.add('js-motion');
  const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.07});
- document.querySelectorAll('.reveal, .van-story, .material-specs > div').forEach(el=>observer.observe(el));
+ document.querySelectorAll('.reveal, .material-specs > div').forEach(el=>observer.observe(el));
+
+ // Observe each print after decoding so slow images cannot miss their entrance.
+ const photoObserver = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+   if (entry.intersectionRatio < 0.18) continue;
+   entry.target.classList.add('visible');
+   photoObserver.unobserve(entry.target);
+  }
+ }, {threshold: 0.18, rootMargin: '0px 0px -6% 0px'});
+ document.querySelectorAll('.van-story img').forEach(async image => {
+  const target = image.parentElement;
+  try {
+   await image.decode();
+   photoObserver.observe(target);
+  } catch {
+   target.classList.add('visible');
+  }
+ });
 }
 reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');}});
 
