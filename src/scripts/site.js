@@ -40,7 +40,11 @@ if ((!seen || replayIntro) && !reduced.matches) {
   intro.classList.add('leaving');
   logo.style.transformOrigin = 'top left';
   const animation = animateIntro(logo,[{transform:'translate(0, 0) scale(1)'},{transform:`translate(${to.left-from.left}px, ${to.top-from.top}px) scale(${to.width/from.width})`}],{duration:800,easing:'cubic-bezier(.65,0,.2,1)'});
-  animation.finished.then(endIntro).catch(endIntro);
+  animation.finished.then(() => {
+   if (intro.hidden) return;
+   endIntro();
+   document.querySelector('.hero').classList.add('hero-arriving');
+  }).catch(endIntro);
  },1750);
  document.querySelector('#skip-intro').addEventListener('click',endIntro);
  window.addEventListener('keydown',endIntro,{once:true});
