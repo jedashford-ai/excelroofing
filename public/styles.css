@@ -126,3 +126,29 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
  .project:hover img{transform:none}
 }
 @media(max-width:760px){.project-gallery-meta{justify-content:flex-start;gap:16px}.gallery-counter{order:-1;font-weight:600}}
+
+/* A factual heritage panel over the project photography. */
+.hero h1 .hero-established{font-size:clamp(38px,4.6vw,68px);line-height:1.18;letter-spacing:-.04em}
+.hero-bottom{align-items:flex-end}
+.heritage-badge{display:flex;align-items:center;gap:19px;padding:22px 25px;background:linear-gradient(130deg,#10264d99,#ffffff19);border:1px solid #ffffff60;border-radius:7px;box-shadow:0 8px 30px #06132625;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#fff;letter-spacing:normal}
+.heritage-date{display:flex;flex-direction:column;gap:6px;padding-right:19px;border-right:1px solid #ffffff50}
+.heritage-date>span{font-size:8px;letter-spacing:.17em;color:#dceffa}
+.heritage-date>strong{font-family:Georgia,serif;font-size:37px;font-weight:400;line-height:1}
+.heritage-details{display:flex;flex-direction:column;gap:7px}
+.heritage-details>strong{font-size:14px;font-weight:600;letter-spacing:-.01em}
+.heritage-details>span{font-size:11px;color:#edf7ff}
+.heritage-details>small{font-size:9px;color:#dceffa}
+@media(max-width:760px){
+ .hero{min-height:710px}
+ .hero h1 .hero-established{font-size:clamp(27px,6.5vw,45px)}
+ .hero-bottom{justify-content:flex-end;bottom:23px}
+ .hero-bottom>span{display:none}
+ .heritage-badge{padding:17px 19px;gap:15px;background:linear-gradient(130deg,#10264dbb,#ffffff19)}
+ .heritage-date{padding-right:15px}
+ .heritage-date>strong{font-size:32px}
+ .heritage-details>strong{font-size:13px}
+ .heritage-details>span{font-size:10px}
+ .intro-caption{font-size:7px;letter-spacing:.18em}
+ .footer-main{column-gap:22px}
+ .footer-main p{font-size:19px}
+}
