@@ -143,7 +143,14 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 @media(max-width:760px){.project-gallery-meta{justify-content:flex-start;gap:16px}.gallery-counter{order:-1;font-weight:600}}
 
 /* A factual heritage panel over the project photography. */
-.hero h1 .hero-established{font-size:clamp(38px,4.6vw,68px);line-height:1.18;letter-spacing:-.04em}
+.hero h1 .hero-established {
+  display: block;
+  margin-top: .06em;
+  font-size: .84em;
+  line-height: 1.02;
+  letter-spacing: -.04em;
+}
+.hero-copy { font-size: clamp(18px, 1.6vw, 23px); margin: 22px 0 0; }
 .hero-bottom{align-items:flex-end}
 .heritage-badge{display:flex;align-items:center;gap:19px;padding:22px 25px;background:linear-gradient(130deg,#10264d99,#ffffff19);border:1px solid #ffffff60;border-radius:7px;box-shadow:0 8px 30px #06132625;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#fff;letter-spacing:normal}
 .heritage-date{display:flex;flex-direction:column;gap:6px;padding-right:19px;border-right:1px solid #ffffff50}
@@ -154,8 +161,10 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 .heritage-details>span{font-size:11px;color:#edf7ff}
 .heritage-details>small{font-size:9px;color:#dceffa}
 @media(max-width:760px){
- .hero{min-height:710px}
- .hero h1 .hero-established{font-size:clamp(27px,6.5vw,45px)}
+ .hero { height: clamp(510px, calc(100svh - 210px), 610px); min-height: 0; }
+ .hero-content { padding-top: clamp(44px, 7svh, 64px); }
+ .hero h1 .hero-established { font-size: clamp(36px, 10.4vw, 56px); }
+ .hero-copy { margin-top: 18px; font-size: 18px; }
  .hero-bottom{justify-content:flex-end;bottom:23px}
  .hero-bottom>span{display:none}
  .heritage-badge{padding:17px 19px;gap:15px;background:linear-gradient(130deg,#10264dbb,#ffffff19)}
