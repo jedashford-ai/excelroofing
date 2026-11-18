@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <title>Excel Roofing</title>
-  <rect width="32" height="32" fill="#fff"/>
-  <g fill="none" stroke="#10264d" stroke-width="3.5" stroke-linejoin="round">
-    <path d="M3 17 11 9l6 6h12"/>
-    <path d="M17 9h7a3 3 0 0 0 0-6"/>
-  </g>
-  <path fill="#10264d" d="M9 17h15v3H13v2h9v3h-9v2h11v3H9z"/>
-</svg>
