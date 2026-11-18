@@ -76,13 +76,35 @@ if (!reduced.matches && 'IntersectionObserver' in window) {
 }
 reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.documentElement.classList.remove('js-motion');}});
 
-const projectSection = document.querySelector('#work');
-const projectToggle = document.querySelector('.projects-toggle');
-projectSection.classList.add('gallery-ready');
-projectToggle.hidden = false;
-projectToggle.addEventListener('click', () => {
- const expanded = projectSection.classList.toggle('projects-expanded');
- projectToggle.setAttribute('aria-expanded', String(expanded));
- projectToggle.textContent = expanded ? 'Show fewer projects' : 'Show more projects';
- if (!expanded) projectToggle.scrollIntoView({block:'nearest', behavior:'instant'});
+// Native horizontal scrolling preserves normal vertical touch scrolling.
+const projectGallery = document.querySelector('#project-grid');
+const projectCards = [...projectGallery.querySelectorAll('.project')];
+const galleryCounter = document.querySelector('.gallery-counter');
+const mobileGallery = window.matchMedia('(max-width: 760px)');
+let galleryTimer;
+function currentProject() {
+ const left = projectGallery.getBoundingClientRect().left;
+ return projectCards.reduce((best,card,index) => Math.abs(card.getBoundingClientRect().left-left) < Math.abs(projectCards[best].getBoundingClientRect().left-left) ? index : best,0);
+}
+function updateProjectCounter() {
+ galleryCounter.textContent = `${currentProject()+1} of ${projectCards.length}`;
+}
+function configureGallery() {
+ projectGallery.tabIndex = mobileGallery.matches ? 0 : -1;
+ galleryCounter.hidden = !mobileGallery.matches;
+ updateProjectCounter();
+}
+projectGallery.addEventListener('scroll',()=>{
+ clearTimeout(galleryTimer);
+ galleryTimer = setTimeout(updateProjectCounter,100);
+},{passive:true});
+projectGallery.addEventListener('keydown',event=>{
+ if(!mobileGallery.matches || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+ event.preventDefault();
+ const index = event.key==='Home' ? 0 : event.key==='End' ? projectCards.length-1 : Math.max(0,Math.min(projectCards.length-1,currentProject()+(event.key==='ArrowRight'?1:-1)));
+ const target = projectCards[index];
+ projectGallery.scrollTo({left:projectGallery.scrollLeft+target.getBoundingClientRect().left-projectGallery.getBoundingClientRect().left,behavior:reduced.matches?'instant':'smooth'});
 });
+mobileGallery.addEventListener('change',configureGallery);
+window.addEventListener('resize',updateProjectCounter);
+configureGallery();

@@ -85,7 +85,7 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 /* Equal service columns, with centred labels at every breakpoint. */
 .service-strip{grid-template-columns:repeat(3,minmax(0,1fr));padding:24px clamp(12px,5.6vw,90px)}
 .service-strip a,.service-strip a:first-child,.service-strip a:last-child{justify-content:center;text-align:center;min-width:0;min-height:48px;padding:8px 10px;font-size:clamp(14px,2.1vw,23px);line-height:1.25;white-space:nowrap}
-.service-description-short,.projects-toggle{display:none}
+.service-description-short{display:none}
 @media(max-width:760px){
  .service-strip{padding:14px 4%}
  .service-strip a,.service-strip a:first-child,.service-strip a:last-child{padding:8px 4px;font-size:clamp(13px,3.5vw,18px);min-height:44px}
@@ -106,10 +106,23 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
  .service-card .text-link{margin-top:12px;padding-top:7px;padding-bottom:6px}
  .project-grid{gap:27px}
  .project-caption{padding-top:15px}
- .gallery-ready:not(.projects-expanded) .project:nth-child(n+3){display:none}
- .projects-toggle:not([hidden]){display:flex;margin:28px auto 0;min-height:48px;border:1px solid #10264d;background:#fff;color:#10264d;padding:14px 24px;font-size:14px}
- .projects-toggle:hover{background:#dceffa}
  .process{gap:28px}
  .process li{padding:20px 0}
  .contact{gap:30px}
 }
+
+.project-gallery-meta{display:none}
+@media(max-width:760px){
+ .project-grid{display:flex;gap:16px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding-bottom:8px}
+ .project-grid::-webkit-scrollbar{display:none}
+ .project-grid::after{content:'';flex:0 0 calc(12% - 16px)}
+ .project-grid .project{flex:0 0 88%;min-width:0;padding-top:0;scroll-snap-align:start}
+ .project-image img{height:clamp(235px,70vw,330px);width:100%;object-fit:cover}
+ .project-caption{min-height:92px;padding-top:16px;gap:12px}
+ .project-caption strong{display:block;min-height:2.4em;font-size:20px;line-height:1.2}
+ .project-caption small{line-height:1.5}
+ .project-gallery-meta{display:flex;align-items:center;justify-content:space-between;margin-top:15px;font-size:11px;color:#536174}
+ .gallery-counter{font-variant-numeric:tabular-nums;color:#10264d}
+ .project:hover img{transform:none}
+}
+@media(max-width:760px){.project-gallery-meta{justify-content:flex-start;gap:16px}.gallery-counter{order:-1;font-weight:600}}
