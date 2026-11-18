@@ -80,18 +80,22 @@ reduced.addEventListener('change',()=>{if(reduced.matches){endIntro();document.d
 const projectGallery = document.querySelector('#project-grid');
 const projectCards = [...projectGallery.querySelectorAll('.project')];
 const galleryCounter = document.querySelector('.gallery-counter');
-const mobileGallery = window.matchMedia('(max-width: 760px)');
+const controls = document.querySelector('.gallery-controls');
 let galleryTimer;
 function currentProject() {
  const left = projectGallery.getBoundingClientRect().left;
  return projectCards.reduce((best,card,index) => Math.abs(card.getBoundingClientRect().left-left) < Math.abs(projectCards[best].getBoundingClientRect().left-left) ? index : best,0);
 }
 function updateProjectCounter() {
- galleryCounter.textContent = `${currentProject()+1} of ${projectCards.length}`;
+ const index = currentProject();
+ galleryCounter.textContent = `${index+1} of ${projectCards.length}`;
+ controls.firstElementChild.disabled = index === 0;
+ controls.lastElementChild.disabled = index === projectCards.length - 1;
 }
 function configureGallery() {
- projectGallery.tabIndex = mobileGallery.matches ? 0 : -1;
- galleryCounter.hidden = !mobileGallery.matches;
+ projectGallery.tabIndex = 0;
+ controls.hidden = false;
+ galleryCounter.hidden = false;
  updateProjectCounter();
 }
 projectGallery.addEventListener('scroll',()=>{
@@ -99,12 +103,17 @@ projectGallery.addEventListener('scroll',()=>{
  galleryTimer = setTimeout(updateProjectCounter,100);
 },{passive:true});
 projectGallery.addEventListener('keydown',event=>{
- if(!mobileGallery.matches || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+ if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
  event.preventDefault();
  const index = event.key==='Home' ? 0 : event.key==='End' ? projectCards.length-1 : Math.max(0,Math.min(projectCards.length-1,currentProject()+(event.key==='ArrowRight'?1:-1)));
+ goToProject(index);
+});
+function goToProject(index) {
  const target = projectCards[index];
  projectGallery.scrollTo({left:projectGallery.scrollLeft+target.getBoundingClientRect().left-projectGallery.getBoundingClientRect().left,behavior:reduced.matches?'instant':'smooth'});
-});
-mobileGallery.addEventListener('change',configureGallery);
+}
+for (const button of controls.querySelectorAll('button')) {
+ button.addEventListener('click', () => goToProject(Math.min(projectCards.length - 1, Math.max(0, currentProject() + Number(button.dataset.step)))));
+}
 window.addEventListener('resize',updateProjectCounter);
 configureGallery();

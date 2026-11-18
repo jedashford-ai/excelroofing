@@ -112,7 +112,6 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 }
 
 .project-gallery-meta{display:none}
-@media(max-width:760px){
  .project-grid{display:flex;gap:16px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding-bottom:8px}
  .project-grid::-webkit-scrollbar{display:none}
  .project-grid::after{content:'';flex:0 0 calc(12% - 16px)}
@@ -124,6 +123,22 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
  .project-gallery-meta{display:flex;align-items:center;justify-content:space-between;margin-top:15px;font-size:11px;color:#536174}
  .gallery-counter{font-variant-numeric:tabular-nums;color:#10264d}
  .project:hover img{transform:none}
+
+.gallery-controls { display: none; }
+@media (min-width: 761px) {
+  .project-grid { gap: 24px; }
+  .project-grid .project { flex-basis: 74%; }
+  .project-grid::after { flex-basis: calc(26% - 24px); }
+  .project-image img { height: clamp(310px, 34vw, 520px); }
+  .project-caption { min-height: 0; }
+  .project-caption strong { min-height: 0; }
+  .project:hover img { transform: scale(1.045); }
+  .gallery-hint { display: none; }
+  .project-gallery-meta { justify-content: flex-start; gap: 24px; }
+  .gallery-controls:not([hidden]) { display: flex; gap: 8px; }
+  .gallery-controls button { min-height: 44px; padding: 8px 18px; border: 1px solid #a8bbca; border-radius: 3px; background: white; color: #10264d; font-size: 14px; }
+  .gallery-controls button:hover:enabled { background: #dceffa; }
+  .gallery-controls button:disabled { opacity: .5; cursor: default; }
 }
 @media(max-width:760px){.project-gallery-meta{justify-content:flex-start;gap:16px}.gallery-counter{order:-1;font-weight:600}}
 
