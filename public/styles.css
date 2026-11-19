@@ -366,14 +366,17 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 .hero-established { position: relative; }
 .established-typing { display: none; position: absolute; inset: 0; }
 
+/* Keep navigation landmarks in normal flow as the following surface covers them. */
+.overlap-track { position: relative; isolation: isolate; }
+.work, .contact { position: relative; }
+.work { background-color: white; }
 @media (prefers-reduced-motion: no-preference) {
-  .js-motion .reveal.rise-in {
-    transform: translateY(clamp(14px, 2vw, 24px));
-    transition: transform 540ms cubic-bezier(.2,.7,.2,1), opacity 420ms ease-out;
+  .overlap-track > section { translate: 0 var(--panel-offset, 0px); }
+  .about, .work, .contact {
+    box-shadow: 0 -12px 28px -20px rgba(9, 29, 53, .4);
   }
-  .js-motion .reveal.rise-in:is(.visible, :focus-within) {
-    transform: none;
-    opacity: 1;
+  .about, .work {
+    max-width: none;
+    padding-inline: max(5.6%, calc((100% - 1700px) / 2 + 5.6%));
   }
-  .js-motion .rise-in.quick-reveal { transition-duration: 300ms; }
 }

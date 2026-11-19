@@ -82,10 +82,23 @@ let updatePending = false;
 const aboutSection = document.querySelector('#about');
 const vanStory = document.querySelector('.van-story');
 
+const overlapTracks = [...document.querySelectorAll('.overlap-track')];
+
+function sectionBounds(section) {
+ return (section.closest('.overlap-track') || section).getBoundingClientRect();
+}
+
 function updateNavigation() {
  updatePending = false;
  const headerBottom = siteHeader.getBoundingClientRect().bottom;
- const heroBottom = hero.getBoundingClientRect().bottom;
+ const heroBottom = sectionBounds(hero).bottom;
+ if (!reduced.matches) {
+  for (const track of overlapTracks) {
+   const bounds = track.getBoundingClientRect();
+   const travel = Math.max(0, Math.min(innerHeight - bounds.bottom, headerBottom - bounds.top));
+   track.style.setProperty('--panel-offset', Math.min(travel, innerHeight * .68) + 'px');
+  }
+ }
  floatingCall.hidden = heroBottom > headerBottom;
  const contactBounds = contact.getBoundingClientRect();
  siteHeader.classList.toggle('over-contact', contactBounds.top <= headerBottom + 1 && contactBounds.bottom > headerBottom);
@@ -93,7 +106,7 @@ function updateNavigation() {
  let active;
  let nearest = -Infinity;
  for (const item of sections) {
-  const top = item.section.getBoundingClientRect().top;
+  const top = sectionBounds(item.section).top;
   if (top <= headerBottom + 24 && top > nearest) {
    active = item.link;
    nearest = top;
@@ -133,7 +146,7 @@ for (const event of ['scroll', 'resize', 'pageshow']) window.addEventListener(ev
 updateNavigation();
 
 // Only a slow, user-driven vertical gesture can request one alignment.
-const snapSections = [...document.querySelectorAll('main > section[id]')];
+const snapSections = [...document.querySelectorAll('main section[id]')];
 let eligible = false;
 let touching = false;
 let settleTimer;
@@ -152,7 +165,7 @@ function alignNearbySection() {
  cancelAlignment();
  const headerEdge = siteHeader.getBoundingClientRect().bottom;
  const limit = desktop.matches ? 48 : 24;
- const offset = snapSections.map(section => section.getBoundingClientRect().top - headerEdge)
+ const offset = snapSections.map(section => sectionBounds(section).top - headerEdge)
   .find(distance => Math.abs(distance) > 1 && Math.abs(distance) <= limit);
  if (offset === undefined) return;
  const start = scrollY;
