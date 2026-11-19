@@ -235,14 +235,14 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  #intro:not([hidden]) ~ main .hero-content,
-  #intro:not([hidden]) ~ main .hero-bottom { opacity: 0; }
+  #intro:not([hidden]):not(.leaving) ~ main .hero-content,
+  #intro:not([hidden]):not(.leaving) ~ main .hero-bottom { opacity: 0; }
   .hero-arriving :is(.eyebrow, .hero-title-line, .hero-established, .hero-copy, .hero-actions, .heritage-badge) {
     animation: hero-enter 400ms cubic-bezier(.2,.7,.2,1) backwards;
-    animation-delay: var(--enter-delay, 0ms);
+    animation-delay: calc(500ms + var(--enter-delay, 0ms));
   }
-  .hero-established { --enter-delay: 70ms; }
-  .hero-copy, .hero-actions { --enter-delay: 130ms; }
+  .hero-established { --enter-delay: 100ms; }
+  .hero-copy, .hero-actions { --enter-delay: 195ms; }
   .heritage-badge { --enter-delay: 200ms; }
 }
 @keyframes hero-enter {
@@ -316,4 +316,21 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .service-card:hover { transform: translateY(-2px); }
+}
+
+.gallery-counter { position: relative; font-variant-numeric: tabular-nums; }
+.gallery-digit-old { position: absolute; inset-inline-start: 0; }
+@media (prefers-reduced-motion:no-preference) {
+ .js-motion .van-story .archive-print { transform: rotate(4deg); box-shadow: 0 5px 18px #10264d38; }
+ .js-motion .van-story .archive-print.visible {
+   transform: rotate(3deg); box-shadow: 0 3px 14px #10264d2e;
+   transition: opacity 360ms ease-out 180ms, transform 480ms ease-out 180ms, box-shadow 480ms ease-out 180ms;
+ }
+ .js-motion :is(.section-heading,.about-copy,.contact-copy).visible:not(.quick-reveal) > p:not(.eyebrow) {
+   animation: hero-enter 320ms ease-out 90ms backwards;
+ }
+ .js-motion .service-card.visible path { animation: draw-service 580ms ease-out both; stroke-dasharray: 1; }
+ @keyframes draw-service { from {stroke-dashoffset:1} to {stroke-dashoffset:0} }
+ .js-motion .material-specs dd strong { color:#526983; }
+ .js-motion .material-specs.visible dd strong { color:#10264d; transition:color 420ms ease-out; }
 }

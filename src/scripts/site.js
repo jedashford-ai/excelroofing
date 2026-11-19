@@ -34,12 +34,14 @@ if (!intro.hidden && !reduced.matches) {
   const from = logo.getBoundingClientRect();
   const to = document.querySelector('#header-logo').getBoundingClientRect();
   intro.classList.add('leaving');
+  const heroSection = document.querySelector('.hero');
+  heroSection.classList.add('hero-arriving');
   logo.style.transformOrigin = 'top left';
   const animation = animateIntro(logo,[{transform:'translate(0, 0) scale(1)'},{transform:`translate(${to.left-from.left}px, ${to.top-from.top}px) scale(${to.width/from.width})`}],{duration:800,easing:'cubic-bezier(.65,0,.2,1)'});
   animation.finished.then(() => {
    if (intro.hidden) return;
    endIntro();
-   document.querySelector('.hero').classList.add('hero-arriving');
+
   }).catch(endIntro);
  },1750);
  window.addEventListener('keydown',endIntro,{once:true});
@@ -197,8 +199,24 @@ document.querySelector('footer [aria-label="Back to top"]').addEventListener('cl
 for (const event of ['wheel','touchstart','keydown']) window.addEventListener(event, () => { returningHome = false; }, {passive:true});
 brand.addEventListener('animationend', () => brand.classList.remove('roof-accent'));
 if (document.documentElement.classList.contains('js-motion')) {
- const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.07});
- document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+ let previousY = scrollY;
+ let previousTime = performance.now();
+ let fastUntil = 0;
+ window.addEventListener('scroll', () => {
+  const now = performance.now();
+  if (Math.abs(scrollY - previousY) / Math.max(16, now - previousTime) > 1.25) fastUntil = now + 180;
+  previousY = scrollY;
+  previousTime = now;
+ }, {passive:true});
+ const observer = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+   if (!entry.isIntersecting) continue;
+   if (performance.now() < fastUntil) entry.target.classList.add('quick-reveal');
+   entry.target.classList.add('visible');
+   observer.unobserve(entry.target);
+  }
+ }, {threshold:.07});
+ document.querySelectorAll('.reveal, .material-specs').forEach(el => observer.observe(el));
 
  // Observe each print after decoding so slow images cannot miss their entrance.
  const photoObserver = new IntersectionObserver(entries => {
@@ -212,6 +230,7 @@ if (document.documentElement.classList.contains('js-motion')) {
   const target = image.parentElement;
   try {
    await image.decode();
+   if (target.matches('.archive-print')) await document.querySelector('.modern-frame img').decode().catch(() => {});
    photoObserver.observe(target);
   } catch {
    target.classList.add('visible');
@@ -233,7 +252,20 @@ function currentProject() {
 }
 function updateProjectCounter() {
  const index = currentProject();
- galleryCounter.textContent = `${index+1} of ${projectCards.length}`;
+ const digit = galleryCounter.querySelector('.gallery-digit');
+ const value = String(index + 1);
+ if (digit.textContent !== value) {
+  if (!reduced.matches) {
+   const old = digit.cloneNode(true);
+   old.className = 'gallery-digit-old';
+   old.setAttribute('aria-hidden','true');
+   galleryCounter.querySelector('.gallery-digit-old')?.remove();
+   galleryCounter.prepend(old);
+   old.animate([{opacity:1},{opacity:0}], 160).finished.then(() => old.remove());
+   digit.animate([{opacity:0},{opacity:1}], 160);
+  }
+  digit.textContent = value;
+ }
  controls.firstElementChild.disabled = index === 0;
  controls.lastElementChild.disabled = index === projectCards.length - 1;
 }
