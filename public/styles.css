@@ -257,3 +257,17 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
     transition: opacity 420ms ease-out;
   }
 }
+
+.hero-image { object-position: 50% 40%; animation: none; transform: none; }
+.hero { display: grid; align-items: center; }
+.hero-content { top: auto; padding-block: 0 3%; }
+.material-specs > div { display: grid; grid-template-columns: 40% 1fr; gap: 12px; align-items: baseline; }
+.material-specs dd { margin: 0; font-variant-numeric: tabular-nums; }
+.material-specs dd strong { display: block; font-size: clamp(19px, 2vw, 27px); color: #10264d; }
+.material-specs dd small { display: block; font-size: 14px; line-height: 1.45; }
+@media (max-width: 760px) {
+  .hero { align-items: start; }
+  .hero-content { padding-top: clamp(34px, 6svh, 60px); }
+  .hero-image { object-position: 74% 59%; }
+  .hero-shade { background: linear-gradient(175deg,#091e3bf2 2%,#091e3bd9 25%,#091e3b66 60%,#091e3b11 84%),linear-gradient(0deg,#091e3b55,transparent 24%); }
+}
