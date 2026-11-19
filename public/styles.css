@@ -181,14 +181,19 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 .service-card p{max-width:440px}
 @media(min-width:761px){.service-card p{min-height:70px}.service-card{padding:36px}.service-card .text-link{justify-content:flex-start}}
 
-.material-spotlight {
+.material-spotlight { padding-bottom: 0; }
+.material-card {
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #b8cedc;
+  box-shadow: 0 2px 0 #bbcfdb, 0 5px 9px #10264d12, 0 15px 30px -14px #10264d40;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   padding-bottom: 0;
 }
 .material-photo { position: relative; }
 .material-photo img { position: absolute; width: 100%; height: 100%; object-position: 55% 65%; }
-.material-panel { background: #dceffa; padding: clamp(28px, 4vw, 64px); }
+.material-panel { background: linear-gradient(145deg,#e8f5fc,#dceffa 55%,#d2e6f1); box-shadow: inset 0 1px 0 #ffffffb0; padding: clamp(28px, 4vw, 64px); }
 .material-panel h2 { font-size: clamp(33px, 3.5vw, 54px); max-width: 14em; }
 .material-panel p, .material-specs dd { font-size: 16px; line-height: 1.55; color: #314a65; }
 .material-panel p { margin-top: 18px; max-width: 54ch; }
@@ -198,7 +203,7 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 .material-specs dd { margin: 4px 0 0; }
 .material-sheet { display: inline-block; padding: 12px 0; font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 760px) {
-  .material-spotlight { grid-template-columns: 1fr; }
+  .material-card { grid-template-columns: 1fr; }
   .material-photo { height: clamp(140px, 40vw, 220px); }
   .material-panel { padding: 25px clamp(17px, 5vw, 32px) 17px; }
   .material-specs { margin-top: 20px; }
@@ -353,6 +358,4 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 @media (min-width:761px) and (prefers-reduced-motion:no-preference) {
  .hero-image { object-position:center; }
  .roof-foreground { display:block; position:absolute; inset:0; width:100%; height:100%; z-index:-3; pointer-events:none; transform:translateY(calc(var(--roof-offset,0px) * .6)) scale(1.085); }
- .material-photo { position:sticky; top:calc(var(--header-height) + 16px); align-self:start; height:clamp(240px,52svh,500px); }
- .material-specs > div { padding-block:clamp(18px,2.2vw,34px); }
 }
