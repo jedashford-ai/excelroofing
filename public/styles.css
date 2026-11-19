@@ -365,3 +365,15 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 
 .hero-established { position: relative; }
 .established-typing { display: none; position: absolute; inset: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .js-motion .reveal.rise-in {
+    transform: translateY(clamp(14px, 2vw, 24px));
+    transition: transform 540ms cubic-bezier(.2,.7,.2,1), opacity 420ms ease-out;
+  }
+  .js-motion .reveal.rise-in:is(.visible, :focus-within) {
+    transform: none;
+    opacity: 1;
+  }
+  .js-motion .rise-in.quick-reveal { transition-duration: 300ms; }
+}
