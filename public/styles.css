@@ -152,7 +152,7 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 }
 .hero-copy { font-size: clamp(18px, 1.6vw, 23px); margin: 22px 0 0; }
 .hero-bottom{align-items:flex-end}
-.heritage-badge{display:flex;align-items:center;gap:19px;padding:22px 25px;background:linear-gradient(130deg,#10264d99,#ffffff19);border:1px solid #ffffff60;border-radius:7px;box-shadow:0 8px 30px #06132625;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:#fff;letter-spacing:normal}
+.heritage-badge{display:flex;align-items:center;gap:19px;padding:22px 25px;background:linear-gradient(130deg,#10264d99,#ffffff19);border:1px solid #ffffff60;border-radius:7px;box-shadow:0 8px 30px #06132625;color:#fff;letter-spacing:normal}
 .heritage-date{display:flex;flex-direction:column;gap:6px;padding-right:19px;border-right:1px solid #ffffff50}
 .heritage-date>span{font-size:8px;letter-spacing:.17em;color:#dceffa}
 .heritage-date>strong{font-family:Georgia,serif;font-size:37px;font-weight:400;line-height:1}
@@ -294,13 +294,11 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
  .has-current .nav-marker { opacity:1; }
 }
 @media (prefers-reduced-motion:no-preference) {
- #intro:not([hidden]) ~ main .hero-image { filter: saturate(.58); }
- #intro.leaving:not([hidden]) ~ main .hero-image { filter:saturate(1); transition:filter .64s ease-out; }
  .brand.roof-accent::after { content:""; position:absolute; inset:0; background:#81bdda; mask:url('/images/logo.svg') center / contain no-repeat; clip-path:inset(0 0 65%); animation:roof-accent .55s ease-out both; pointer-events:none; }
  @keyframes roof-accent { 0%,100% {opacity:0} 35% {opacity:1} }
 }
 @media (min-width:761px) and (prefers-reduced-motion:no-preference) {
- .hero-image { transform:translateY(var(--roof-offset,0px)) scale(1.085); }
+ .hero-image { transform:scale(1.085); }
 }
 @media (max-width:760px) {
  .header nav { top:100%; padding:18px 6% 24px; background:#10264d; color:white; border:0; gap:2px; max-height:calc(100dvh - 88px); overflow-y:auto; }
@@ -345,22 +343,18 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
   border:1px solid rgba(229,245,255,.66);
   box-shadow:inset 0 1px 0 #ffffff30,0 5px 20px #09182e25;
 }
-@supports ((backdrop-filter:blur(12px)) or (-webkit-backdrop-filter:blur(12px))) {
-  .heritage-badge { background:linear-gradient(120deg,#102845b8,#1a365678); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
-}
 @media (prefers-reduced-motion:no-preference) {
  .about { margin-top:-12px; }
- .about::before { content:""; position:absolute; inset:-20px 0 auto; height:20px; background:linear-gradient(transparent,#0c1e3440); opacity:var(--edge-shadow,0); pointer-events:none; }
  .van-story .archive-print {
-   transform:translateY(var(--print-depth,0px)) rotate(3deg);
-   box-shadow:0 calc(3px + var(--print-depth,0px)) 14px #10264d2e;
+   transform:rotate(3deg);
+   box-shadow:0 6px 14px #10264d2e;
  }
  .js-motion .project-0 .project-image { filter:contrast(.9) saturate(.72); }
  .js-motion .project-0 .project-image.visible { filter:none; transition:filter 350ms ease-out; }
 }
 @media (min-width:761px) and (prefers-reduced-motion:no-preference) {
  .hero-image { object-position:center; }
- .roof-foreground { display:block; position:absolute; inset:0; width:100%; height:100%; z-index:-3; pointer-events:none; transform:translateY(calc(var(--roof-offset,0px) * .6)) scale(1.085); }
+ .roof-foreground { display:block; position:absolute; inset:0; width:100%; height:100%; z-index:-3; pointer-events:none; transform:scale(1.085); }
 }
 
 .hero-established { position: relative; }
@@ -371,12 +365,29 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 .work, .contact { position: relative; }
 .work { background-color: white; }
 @media (prefers-reduced-motion: no-preference) {
-  .overlap-track > section { translate: 0 var(--panel-offset, 0px); }
+  .overlap-track { --overlap: 68svh; margin-bottom: calc(-1 * var(--overlap)); }
+  .overlap-track::after { content: ""; display: block; height: var(--overlap); pointer-events: none; }
+  .overlap-track > section {
+    position: sticky;
+    top: min(var(--header-height), calc(100svh - var(--panel-height, 100svh)));
+  }
   .about, .contact {
     box-shadow: 0 -12px 28px -20px rgba(9, 29, 53, .4);
   }
   .about {
     max-width: none;
     padding-inline: max(5.6%, calc((100% - 1700px) / 2 + 5.6%));
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (min-width:761px) and (prefers-reduced-motion:no-preference) {
+    .hero-image, .roof-foreground {
+      animation: roof-scroll linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 267px;
+    }
+    .roof-foreground { --roof-travel: 14px; }
+    @keyframes roof-scroll { to { translate: 0 var(--roof-travel, 24px); } }
   }
 }

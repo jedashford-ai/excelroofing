@@ -1,9 +1,11 @@
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 const intro = document.querySelector('#intro');
 const introAnimations = new Set();
+const introEvents = new AbortController();
 let introTimer;
 let introFailsafe;
 function endIntro() {
+ introEvents.abort();
  clearTimeout(introTimer); clearTimeout(introFailsafe);
  intro.hidden = true;
  introAnimations.forEach(animation => animation.cancel());
@@ -60,11 +62,11 @@ if (!intro.hidden && !reduced.matches) {
    typeCharacter();
   }).catch(endIntro);
  },1750);
- window.addEventListener('keydown',endIntro,{once:true});
+ window.addEventListener('keydown',endIntro,{once:true,signal:introEvents.signal});
  // A mobile browser toolbar changing height should not interrupt the drawing.
  const initialWidth = innerWidth;
- window.addEventListener('resize',()=>{if(innerWidth!==initialWidth)endIntro();});
- window.addEventListener('scroll',()=>{if(scrollY>40)endIntro();},{passive:true});
+ window.addEventListener('resize',()=>{if(innerWidth!==initialWidth)endIntro();},{signal:introEvents.signal});
+ window.addEventListener('scroll',()=>{if(scrollY>40)endIntro();},{passive:true,signal:introEvents.signal});
  introFailsafe = setTimeout(endIntro,3600);
 }
 const floatingCall = document.querySelector('.floating-call');
@@ -79,10 +81,15 @@ const desktop = matchMedia('(min-width: 761px)');
 const brand = siteHeader.querySelector('.brand');
 let returningHome = false;
 let updatePending = false;
-const aboutSection = document.querySelector('#about');
-const vanStory = document.querySelector('.van-story');
-
-const overlapTracks = [...document.querySelectorAll('.overlap-track')];
+const heroTrack = hero.parentElement;
+const pinnedPanels = document.querySelectorAll('.overlap-track > section');
+const panelSizes = new ResizeObserver(entries => {
+ for (const {target} of entries) {
+  target.style.setProperty('--panel-height', target.offsetHeight + 'px');
+ }
+ scheduleNavigation();
+});
+pinnedPanels.forEach(panel => panelSizes.observe(panel));
 
 function sectionBounds(section) {
  return (section.closest('.overlap-track') || section).getBoundingClientRect();
@@ -91,46 +98,23 @@ function sectionBounds(section) {
 function updateNavigation() {
  updatePending = false;
  const headerBottom = siteHeader.getBoundingClientRect().bottom;
- const heroBottom = sectionBounds(hero).bottom;
- if (!reduced.matches) {
-  for (const track of overlapTracks) {
-   const bounds = track.getBoundingClientRect();
-   const travel = Math.max(0, Math.min(innerHeight - bounds.bottom, headerBottom - bounds.top));
-   track.style.setProperty('--panel-offset', Math.min(travel, innerHeight * .68) + 'px');
-  }
- }
- floatingCall.hidden = heroBottom > headerBottom;
+ const heroBottom = heroTrack.getBoundingClientRect().top + hero.offsetHeight;
  const contactBounds = contact.getBoundingClientRect();
- siteHeader.classList.toggle('over-contact', contactBounds.top <= headerBottom + 1 && contactBounds.bottom > headerBottom);
-
  let active;
- let nearest = -Infinity;
  for (const item of sections) {
-  const top = sectionBounds(item.section).top;
-  if (top <= headerBottom + 24 && top > nearest) {
-   active = item.link;
-   nearest = top;
-  }
+  if (sectionBounds(item.section).top <= headerBottom + 24) active = item.link;
  }
+ const markerLeft = active && desktop.matches ? active.offsetLeft + active.offsetWidth / 2 - 11 : null;
+ const hideCall = heroBottom > headerBottom;
+ if (floatingCall.hidden !== hideCall) floatingCall.hidden = hideCall;
+ siteHeader.classList.toggle('over-contact', contactBounds.top <= headerBottom + 1 && contactBounds.bottom > headerBottom);
  for (const link of sectionLinks) {
+  if ((link === active) === link.hasAttribute('aria-current')) continue;
   if (link === active) link.setAttribute('aria-current', 'location');
   else link.removeAttribute('aria-current');
  }
  nav.classList.toggle('has-current', Boolean(active));
- if (active && desktop.matches) {
-  nav.style.setProperty('--marker-left', (active.offsetLeft + active.offsetWidth / 2 - 11) + 'px');
- }
- if (!reduced.matches) {
-  const progress = Math.min(1, Math.max(0, scrollY / hero.offsetHeight));
-  aboutSection.style.setProperty('--edge-shadow', Math.sin(Math.PI * progress).toFixed(3));
-  const van = vanStory.getBoundingClientRect();
-  const passage = Math.min(1, Math.max(0, (innerHeight - van.top) / (innerHeight + van.height)));
-  const lift = Math.sin(Math.PI * passage) * 8;
-  vanStory.style.setProperty('--print-depth', lift.toFixed(2) + 'px');
- }
- if (desktop.matches && !reduced.matches && heroBottom > 0) {
-  hero.style.setProperty('--roof-offset', Math.min(24, Math.max(0, scrollY * 0.09)) + 'px');
- }
+ if (markerLeft !== null) nav.style.setProperty('--marker-left', markerLeft + 'px');
  if (returningHome && scrollY <= 1) {
   returningHome = false;
   brand.focus({preventScroll:true});
@@ -146,7 +130,7 @@ for (const event of ['scroll', 'resize', 'pageshow']) window.addEventListener(ev
 updateNavigation();
 
 // Only a slow, user-driven vertical gesture can request one alignment.
-const snapSections = [...document.querySelectorAll('main section[id]')];
+const snapSections = [...document.querySelectorAll('main section[id], main .overlap-track[id]')];
 let eligible = false;
 let touching = false;
 let settleTimer;
