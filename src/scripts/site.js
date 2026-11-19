@@ -41,7 +41,23 @@ if (!intro.hidden && !reduced.matches) {
   animation.finished.then(() => {
    if (intro.hidden) return;
    endIntro();
-
+   if (reduced.matches) return;
+   const line = heroSection.querySelector('.hero-established');
+   const text = line.querySelector('.established-full').textContent;
+   const typed = line.querySelector('.established-typing');
+   line.classList.add('is-typing');
+   let count = 0;
+   function typeCharacter() {
+    count++;
+    if (count >= text.length || reduced.matches) {
+     line.classList.remove('is-typing');
+     typed.textContent = '';
+     return;
+    }
+    typed.textContent = text.slice(0, count);
+    setTimeout(typeCharacter, text[count - 1] === ' ' ? 95 : 58);
+   }
+   typeCharacter();
   }).catch(endIntro);
  },1750);
  window.addEventListener('keydown',endIntro,{once:true});
