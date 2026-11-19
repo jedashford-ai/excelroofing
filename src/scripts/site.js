@@ -105,7 +105,8 @@ function updateNavigation() {
   if (sectionBounds(item.section).top <= headerBottom + 24) active = item.link;
  }
  const markerLeft = active && desktop.matches ? active.offsetLeft + active.offsetWidth / 2 - 11 : null;
- const hideCall = heroBottom > headerBottom;
+ const contactInView = contactBounds.top < innerHeight && contactBounds.bottom > headerBottom;
+ const hideCall = heroBottom > headerBottom || contactInView;
  if (floatingCall.hidden !== hideCall) floatingCall.hidden = hideCall;
  siteHeader.classList.toggle('over-contact', contactBounds.top <= headerBottom + 1 && contactBounds.bottom > headerBottom);
  for (const link of sectionLinks) {
