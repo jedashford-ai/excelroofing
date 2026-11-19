@@ -55,7 +55,7 @@ if (!intro.hidden && !reduced.matches) {
      return;
     }
     typed.textContent = text.slice(0, count);
-    setTimeout(typeCharacter, text[count - 1] === ' ' ? 95 : 58);
+    setTimeout(typeCharacter, text[count - 1] === ' ' ? 75 : 46);
    }
    typeCharacter();
   }).catch(endIntro);
