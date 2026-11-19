@@ -372,10 +372,10 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 .work { background-color: white; }
 @media (prefers-reduced-motion: no-preference) {
   .overlap-track > section { translate: 0 var(--panel-offset, 0px); }
-  .about, .work, .contact {
+  .about, .contact {
     box-shadow: 0 -12px 28px -20px rgba(9, 29, 53, .4);
   }
-  .about, .work {
+  .about {
     max-width: none;
     padding-inline: max(5.6%, calc((100% - 1700px) / 2 + 5.6%));
   }
