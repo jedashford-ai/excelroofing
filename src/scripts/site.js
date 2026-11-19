@@ -63,6 +63,8 @@ const desktop = matchMedia('(min-width: 761px)');
 const brand = siteHeader.querySelector('.brand');
 let returningHome = false;
 let updatePending = false;
+const aboutSection = document.querySelector('#about');
+const vanStory = document.querySelector('.van-story');
 
 function updateNavigation() {
  updatePending = false;
@@ -88,6 +90,14 @@ function updateNavigation() {
  nav.classList.toggle('has-current', Boolean(active));
  if (active && desktop.matches) {
   nav.style.setProperty('--marker-left', (active.offsetLeft + active.offsetWidth / 2 - 11) + 'px');
+ }
+ if (!reduced.matches) {
+  const progress = Math.min(1, Math.max(0, scrollY / hero.offsetHeight));
+  aboutSection.style.setProperty('--edge-shadow', Math.sin(Math.PI * progress).toFixed(3));
+  const van = vanStory.getBoundingClientRect();
+  const passage = Math.min(1, Math.max(0, (innerHeight - van.top) / (innerHeight + van.height)));
+  const lift = Math.sin(Math.PI * passage) * 8;
+  vanStory.style.setProperty('--print-depth', lift.toFixed(2) + 'px');
  }
  if (desktop.matches && !reduced.matches && heroBottom > 0) {
   hero.style.setProperty('--roof-offset', Math.min(24, Math.max(0, scrollY * 0.09)) + 'px');
@@ -216,7 +226,7 @@ if (document.documentElement.classList.contains('js-motion')) {
    observer.unobserve(entry.target);
   }
  }, {threshold:.07});
- document.querySelectorAll('.reveal, .material-specs').forEach(el => observer.observe(el));
+ document.querySelectorAll('.reveal, .material-specs, .project-0 .project-image').forEach(el => observer.observe(el));
 
  // Observe each print after decoding so slow images cannot miss their entrance.
  const photoObserver = new IntersectionObserver(entries => {

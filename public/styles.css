@@ -321,11 +321,6 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
 .gallery-counter { position: relative; font-variant-numeric: tabular-nums; }
 .gallery-digit-old { position: absolute; inset-inline-start: 0; }
 @media (prefers-reduced-motion:no-preference) {
- .js-motion .van-story .archive-print { transform: rotate(4deg); box-shadow: 0 5px 18px #10264d38; }
- .js-motion .van-story .archive-print.visible {
-   transform: rotate(3deg); box-shadow: 0 3px 14px #10264d2e;
-   transition: opacity 360ms ease-out 180ms, transform 480ms ease-out 180ms, box-shadow 480ms ease-out 180ms;
- }
  .js-motion :is(.section-heading,.about-copy,.contact-copy).visible:not(.quick-reveal) > p:not(.eyebrow) {
    animation: hero-enter 320ms ease-out 90ms backwards;
  }
@@ -333,4 +328,31 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
  @keyframes draw-service { from {stroke-dashoffset:1} to {stroke-dashoffset:0} }
  .js-motion .material-specs dd strong { color:#526983; }
  .js-motion .material-specs.visible dd strong { color:#10264d; transition:color 420ms ease-out; }
+}
+
+.roof-foreground { display:none; }
+.about { position:relative; background:white; }
+.heritage-badge {
+  background:linear-gradient(120deg,rgba(12,37,65,.84),rgba(23,48,76,.68));
+  border:1px solid rgba(229,245,255,.66);
+  box-shadow:inset 0 1px 0 #ffffff30,0 5px 20px #09182e25;
+}
+@supports ((backdrop-filter:blur(12px)) or (-webkit-backdrop-filter:blur(12px))) {
+  .heritage-badge { background:linear-gradient(120deg,#102845b8,#1a365678); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
+}
+@media (prefers-reduced-motion:no-preference) {
+ .about { margin-top:-12px; }
+ .about::before { content:""; position:absolute; inset:-20px 0 auto; height:20px; background:linear-gradient(transparent,#0c1e3440); opacity:var(--edge-shadow,0); pointer-events:none; }
+ .van-story .archive-print {
+   transform:translateY(var(--print-depth,0px)) rotate(3deg);
+   box-shadow:0 calc(3px + var(--print-depth,0px)) 14px #10264d2e;
+ }
+ .js-motion .project-0 .project-image { filter:contrast(.9) saturate(.72); }
+ .js-motion .project-0 .project-image.visible { filter:none; transition:filter 350ms ease-out; }
+}
+@media (min-width:761px) and (prefers-reduced-motion:no-preference) {
+ .hero-image { object-position:center; }
+ .roof-foreground { display:block; position:absolute; inset:0; width:100%; height:100%; z-index:-3; pointer-events:none; transform:translateY(calc(var(--roof-offset,0px) * .6)) scale(1.085); }
+ .material-photo { position:sticky; top:calc(var(--header-height) + 16px); align-self:start; height:clamp(240px,52svh,500px); }
+ .material-specs > div { padding-block:clamp(18px,2.2vw,34px); }
 }
