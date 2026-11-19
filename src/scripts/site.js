@@ -104,6 +104,76 @@ function scheduleNavigation() {
 for (const event of ['scroll', 'resize', 'pageshow']) window.addEventListener(event, scheduleNavigation, {passive:true});
 updateNavigation();
 
+// Only a slow, user-driven vertical gesture can request one alignment.
+const snapSections = [...document.querySelectorAll('main > section[id]')];
+let eligible = false;
+let touching = false;
+let settleTimer;
+let snapFrame;
+let lastWheel = -Infinity;
+let touchStart;
+let lastTouch;
+
+function cancelAlignment() {
+ eligible = false;
+ clearTimeout(settleTimer);
+ cancelAnimationFrame(snapFrame);
+}
+function alignNearbySection() {
+ if (!eligible || touching || reduced.matches || nav.classList.contains('open')) return;
+ cancelAlignment();
+ const headerEdge = siteHeader.getBoundingClientRect().bottom;
+ const limit = desktop.matches ? 48 : 24;
+ const offset = snapSections.map(section => section.getBoundingClientRect().top - headerEdge)
+  .find(distance => Math.abs(distance) > 1 && Math.abs(distance) <= limit);
+ if (offset === undefined) return;
+ const start = scrollY;
+ const began = performance.now();
+ function advance(now) {
+  const progress = Math.min(1, (now - began) / 180);
+  window.scrollTo({top:start + offset * (1 - (1 - progress) ** 3), behavior:'instant'});
+  if (progress < 1) snapFrame = requestAnimationFrame(advance);
+ }
+ snapFrame = requestAnimationFrame(advance);
+}
+function waitForRest() {
+ clearTimeout(settleTimer);
+ if (eligible && !touching) settleTimer = setTimeout(alignNearbySection, 160);
+}
+window.addEventListener('wheel', event => {
+ const now = performance.now();
+ const newGesture = now - lastWheel > 180;
+ const delta = Math.abs(event.deltaY) * [1, 16, innerHeight][event.deltaMode];
+ const slowVertical = delta > 0 && delta < 75 && Math.abs(event.deltaY) > Math.abs(event.deltaX) && !event.ctrlKey;
+ const allow = slowVertical && (newGesture || eligible);
+ cancelAlignment();
+ eligible = allow;
+ lastWheel = now;
+}, {passive:true});
+window.addEventListener('touchstart', event => {
+ cancelAlignment();
+ touching = true;
+ eligible = event.touches.length === 1;
+ const point = event.touches[0];
+ touchStart = lastTouch = {x:point.clientX, y:point.clientY, time:event.timeStamp};
+}, {passive:true});
+window.addEventListener('touchmove', event => {
+ if (!eligible || !lastTouch) return;
+ const point = event.touches[0];
+ const dy = Math.abs(point.clientY - lastTouch.y);
+ const dt = Math.max(1, event.timeStamp - lastTouch.time);
+ if (dy > 6 && dy / dt > 1.2 || Math.abs(point.clientX-touchStart.x) > Math.abs(point.clientY-touchStart.y) + 6) eligible = false;
+ lastTouch = {x:point.clientX, y:point.clientY, time:event.timeStamp};
+}, {passive:true});
+window.addEventListener('touchend', () => {
+ touching = false;
+ if (!touchStart || Math.abs(lastTouch.y-touchStart.y) < 4) eligible = false;
+ waitForRest();
+}, {passive:true});
+window.addEventListener('scroll', waitForRest, {passive:true});
+for (const event of ['pointerdown','keydown','click','touchcancel','resize','pagehide']) window.addEventListener(event, cancelAlignment, {passive:true});
+reduced.addEventListener('change', cancelAlignment);
+
 function setMenu(open) {
  menu.setAttribute('aria-expanded', String(open));
  nav.classList.toggle('open', open);
