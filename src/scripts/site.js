@@ -52,20 +52,80 @@ if (!intro.hidden && !reduced.matches) {
 const floatingCall = document.querySelector('.floating-call');
 const hero = document.querySelector('.hero');
 const siteHeader = document.querySelector('.header');
-function updateFloatingCall() {
- const heroBottom = hero.getBoundingClientRect().bottom;
- floatingCall.hidden = heroBottom > siteHeader.getBoundingClientRect().bottom;
-}
-window.addEventListener('scroll', updateFloatingCall, { passive: true });
-window.addEventListener('resize', updateFloatingCall);
-window.addEventListener('pageshow', updateFloatingCall);
-updateFloatingCall();
 const menu = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#navigation');
-function closeMenu(){menu.setAttribute('aria-expanded','false');nav.classList.remove('open');menu.querySelector('span').textContent='＋';}
-menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('open',open);menu.querySelector('span').textContent=open?'−':'＋';});
-nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+const sectionLinks = [...nav.querySelectorAll('a[href^="#"]')];
+const sections = sectionLinks.map(link => ({link, section: document.querySelector(link.hash)}));
+const contact = document.querySelector('#contact');
+const desktop = matchMedia('(min-width: 761px)');
+const brand = siteHeader.querySelector('.brand');
+let returningHome = false;
+let updatePending = false;
+
+function updateNavigation() {
+ updatePending = false;
+ const headerBottom = siteHeader.getBoundingClientRect().bottom;
+ const heroBottom = hero.getBoundingClientRect().bottom;
+ floatingCall.hidden = heroBottom > headerBottom;
+ const contactBounds = contact.getBoundingClientRect();
+ siteHeader.classList.toggle('over-contact', contactBounds.top <= headerBottom + 1 && contactBounds.bottom > headerBottom);
+
+ let active;
+ let nearest = -Infinity;
+ for (const item of sections) {
+  const top = item.section.getBoundingClientRect().top;
+  if (top <= headerBottom + 24 && top > nearest) {
+   active = item.link;
+   nearest = top;
+  }
+ }
+ for (const link of sectionLinks) {
+  if (link === active) link.setAttribute('aria-current', 'location');
+  else link.removeAttribute('aria-current');
+ }
+ nav.classList.toggle('has-current', Boolean(active));
+ if (active && desktop.matches) {
+  nav.style.setProperty('--marker-left', (active.offsetLeft + active.offsetWidth / 2 - 11) + 'px');
+ }
+ if (desktop.matches && !reduced.matches && heroBottom > 0) {
+  hero.style.setProperty('--roof-offset', Math.min(24, Math.max(0, scrollY * 0.09)) + 'px');
+ }
+ if (returningHome && scrollY <= 1) {
+  returningHome = false;
+  brand.focus({preventScroll:true});
+  if (!reduced.matches) brand.classList.add('roof-accent');
+ }
+}
+function scheduleNavigation() {
+ if (updatePending) return;
+ updatePending = true;
+ requestAnimationFrame(updateNavigation);
+}
+for (const event of ['scroll', 'resize', 'pageshow']) window.addEventListener(event, scheduleNavigation, {passive:true});
+updateNavigation();
+
+function setMenu(open) {
+ menu.setAttribute('aria-expanded', String(open));
+ nav.classList.toggle('open', open);
+}
+menu.addEventListener('click', () => setMenu(menu.getAttribute('aria-expanded') !== 'true'));
+nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', event => {
+ if (event.key === 'Escape' && nav.classList.contains('open')) {
+  setMenu(false);
+  menu.focus();
+ }
+});
+document.addEventListener('click', event => {
+ if (!siteHeader.contains(event.target)) setMenu(false);
+});
+desktop.addEventListener('change', () => { setMenu(false); scheduleNavigation(); });
+document.querySelector('footer [aria-label="Back to top"]').addEventListener('click', () => {
+ returningHome = true;
+ scheduleNavigation();
+});
+for (const event of ['wheel','touchstart','keydown']) window.addEventListener(event, () => { returningHome = false; }, {passive:true});
+brand.addEventListener('animationend', () => brand.classList.remove('roof-accent'));
 if (document.documentElement.classList.contains('js-motion')) {
  const observer = new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target);}}),{threshold:.07});
  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
