@@ -132,3 +132,15 @@ for (const button of controls.querySelectorAll('button')) {
 }
 window.addEventListener('resize',updateProjectCounter);
 configureGallery();
+
+const photoViews = document.querySelector('.photo-views');
+const projectPhoto = document.getElementById('project-photo-0');
+photoViews.hidden = false;
+photoViews.addEventListener('click', event => {
+ const selected = event.target.closest('button');
+ if (!selected) return;
+ projectPhoto.classList.toggle('edge-detail', selected.dataset.view === 'detail');
+ for (const button of photoViews.querySelectorAll('button')) {
+  button.setAttribute('aria-pressed', String(button === selected));
+ }
+});

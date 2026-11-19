@@ -50,14 +50,19 @@ const projects = [
     <h2 id="materials-title">Why Stuart chooses premium materials</h2>
     <p>Stuart uses Polyglass FLEXO S6 PREMIUM waterproofing membrane for flat roofing. Its polyester reinforcement gives the sheet strength, while the flexible bitumen helps it accommodate movement.</p>
     <dl class="material-specs">
-      <div><dt>Watertightness</dt><dd>The membrane passed watertightness tests before and after artificial ageing.</dd></div>
-      <div><dt>Cold flexibility</dt><dd>The membrane stays flexible in testing at <strong>−20°C</strong>.</dd></div>
-      <div><dt>Breaking strength</dt><dd>Nominal breaking load per 50 mm strip is <strong>800 N</strong> lengthways and <strong>600 N</strong> across (±20%).</dd></div>
+      <div><dt>Watertightness</dt><dd><strong>Passed</strong><small>Before and after artificial ageing</small></dd></div>
+      <div><dt>Cold flexibility</dt><dd><strong>−20°C</strong><small>Test temperature</small></dd></div>
+      <div><dt>Breaking strength</dt><dd><strong>800 N / 600 N</strong><small>Lengthways / across, per 50 mm strip (±20%)</small></dd></div>
     </dl>
     <a class="material-sheet" href="https://kimeel.com/wp-content/uploads/2020/03/TEHNI%C4%8CKI-LIST-FLEXO-S6-PREMIUM.pdf#page=3">View manufacturer’s technical sheet (PDF)</a>
   </div>
 </section>
-<section class="work section" id="work"><div class="section-heading reveal"><div><p class="eyebrow">A CLOSER LOOK</p><h2>Our work.<br/>Out in the open.</h2></div><p>A selection of Excel Roofing projects.<br/>Take a look at the finish.</p></div><div class="project-grid" id="project-grid" role="region" aria-label="Project photographs">{projects.map((p,i)=><article class={`project project-${i}`} id={`project-${i+1}`} aria-label={`Project ${i+1} of ${projects.length}`}><div class="project-image"><img src={`/images/${p.image}.jpg`} alt={p.detail} width="1100" height="792" loading="lazy"/></div><span class="project-caption"><span><strong>{p.title}</strong><small>{p.detail}</small></span><span class="project-index">0{i+1}</span></span></article>)}</div><div class="project-gallery-meta"><span class="gallery-hint">Swipe to explore</span><span class="gallery-counter" aria-live="polite" aria-atomic="true" hidden>1 of {projects.length}</span>
+<section class="work section" id="work"><div class="section-heading reveal"><div><p class="eyebrow">A CLOSER LOOK</p><h2>Our work.<br/>Out in the open.</h2></div><p>A selection of Excel Roofing projects.<br/>Take a look at the finish.</p></div><div class="project-grid" id="project-grid" role="region" aria-label="Project photographs">{projects.map((p,i)=><article class={`project project-${i}`} id={`project-${i+1}`} aria-label={`Project ${i+1} of ${projects.length}`}><div class="project-image" id={`project-photo-${i}`}><img src={`/images/${p.image}.jpg`} alt={p.detail} width="1100" height="792" loading="lazy"/></div><span class="project-caption"><span><strong>{p.title}</strong><small>{p.detail}</small></span><span class="project-index">0{i+1}</span></span>
+  {i === 0 && <div class="photo-views" role="group" aria-label="Project photo view" hidden>
+    <button type="button" aria-controls="project-photo-0" aria-pressed="true" data-view="overview">Overview</button>
+    <button type="button" aria-controls="project-photo-0" aria-pressed="false" data-view="detail">Edge detail</button>
+  </div>}
+</article>)}</div><div class="project-gallery-meta"><span class="gallery-hint">Swipe to explore</span><span class="gallery-counter" aria-live="polite" aria-atomic="true" hidden>1 of {projects.length}</span>
   <div class="gallery-controls" hidden>
     <button type="button" aria-controls="project-grid" data-step="-1">Previous</button>
     <button type="button" aria-controls="project-grid" data-step="1">Next</button>
