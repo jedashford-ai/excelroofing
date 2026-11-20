@@ -248,7 +248,20 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
   }
   #intro.leaving:not([hidden]) ~ main .established-full,
   .hero-established.is-typing .established-full { opacity: 0; }
-  .hero-established.is-typing .established-typing { display: block; }
+  .hero-established.is-typing .established-typing { display: block; white-space: pre; }
+  .established-typing::after {
+    content: "";
+    display: inline-block;
+    width: .04em;
+    height: .78em;
+    margin-left: .045em;
+    vertical-align: -.04em;
+    background: currentColor;
+  }
+  .hero-established.typing-finished .established-typing::after {
+    animation: caret-blink 500ms steps(1, end) 2;
+  }
+  @keyframes caret-blink { 50%, 100% { opacity: 0; } }
   .hero-established { --enter-delay: 100ms; }
   .hero-copy, .hero-actions { --enter-delay: 195ms; }
   .heritage-badge { --enter-delay: 200ms; }

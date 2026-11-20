@@ -49,17 +49,24 @@ if (!intro.hidden && !reduced.matches) {
    const typed = line.querySelector('.established-typing');
    line.classList.add('is-typing');
    let count = 0;
+   function finishTyping() {
+    line.classList.remove('is-typing', 'typing-finished');
+    typed.textContent = '';
+   }
    function typeCharacter() {
-    count++;
-    if (count >= text.length || reduced.matches) {
-     line.classList.remove('is-typing');
-     typed.textContent = '';
+    if (reduced.matches) {
+     finishTyping();
      return;
     }
-    typed.textContent = text.slice(0, count);
-    setTimeout(typeCharacter, text[count - 1] === ' ' ? 75 : 46);
+    typed.textContent = text.slice(0, ++count);
+    if (count === text.length) {
+     line.classList.add('typing-finished');
+     setTimeout(finishTyping, 1000);
+     return;
+    }
+    setTimeout(typeCharacter, text[count - 1] === ' ' ? 70 : 42);
    }
-   typeCharacter();
+   setTimeout(typeCharacter, 90);
   }).catch(endIntro);
  },1750);
  window.addEventListener('keydown',endIntro,{once:true,signal:introEvents.signal});
