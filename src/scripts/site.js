@@ -64,7 +64,7 @@ if (!intro.hidden && !reduced.matches) {
      setTimeout(finishTyping, 1000);
      return;
     }
-    setTimeout(typeCharacter, text[count - 1] === ' ' ? 75 : 46);
+    setTimeout(typeCharacter, text[count - 1] === ' ' ? 70 : 42);
    }
    setTimeout(typeCharacter, 90);
   }).catch(endIntro);
