@@ -17,7 +17,7 @@ Repository: jedashford-ai/excelroofing
 Netlify demo: excel-roofing-stuart-demo
 Build: `npm run build`; publish: `dist`.
 
-The demo deliberately sends `noindex, nofollow` via HTML and response headers and disallows crawling. Remove these settings only when launching the approved production site.
+The demo deliberately sends `noindex, nofollow` via HTML and response headers and disallows crawling. Only production builds of the main Netlify project allow homepage indexing and publish the sitemap.
 
 ## Content and interactions
 
