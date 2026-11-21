@@ -5,6 +5,10 @@ const introEvents = new AbortController();
 let introTimer;
 let introFailsafe;
 function endIntro() {
+ document.querySelector('.hero').classList.remove('hero-arriving');
+ clearIntro();
+}
+function clearIntro() {
  introEvents.abort();
  clearTimeout(introTimer); clearTimeout(introFailsafe);
  intro.hidden = true;
@@ -42,7 +46,7 @@ if (!intro.hidden && !reduced.matches) {
   const animation = animateIntro(logo,[{transform:'translate(0, 0) scale(1)'},{transform:`translate(${to.left-from.left}px, ${to.top-from.top}px) scale(${to.width/from.width})`}],{duration:800,easing:'cubic-bezier(.65,0,.2,1)'});
   animation.finished.then(() => {
    if (intro.hidden) return;
-   endIntro();
+   clearIntro();
    if (reduced.matches) return;
    const line = heroSection.querySelector('.hero-established');
    const text = line.querySelector('.established-full').textContent;
@@ -58,7 +62,9 @@ if (!intro.hidden && !reduced.matches) {
      finishTyping();
      return;
     }
+    if (count === 0) heroSection.classList.add('headline-started');
     typed.textContent = text.slice(0, ++count);
+    if (count === text.lastIndexOf('9') + 1) heroSection.classList.add('date-revealed');
     if (count === text.length) {
      line.classList.add('typing-finished');
      setTimeout(finishTyping, 1000);
@@ -253,6 +259,7 @@ if (document.documentElement.classList.contains('js-motion')) {
  const photoObserver = new IntersectionObserver(entries => {
   for (const entry of entries) {
    if (entry.intersectionRatio < 0.18) continue;
+   if (entry.target.matches('.archive-print')) entry.target.previousElementSibling.classList.add('visible');
    entry.target.classList.add('visible');
    photoObserver.unobserve(entry.target);
   }
