@@ -2,10 +2,16 @@
   <div class="modern-frame">
     <img class="modern" src="/images/van-today.webp" alt="Today's white Excel Roofing van with the Established 1989 badge on its bonnet" width="900" height="787" loading="eager" decoding="async" />
   </div>
-  <figure class="archive-print">
-    <img src="/images/van-early-days.webp" alt="An earlier blue van with Excel Roofing painted across the bonnet" width="900" height="788" loading="eager" decoding="async" />
-    <figcaption>The early days</figcaption>
-  </figure>
+  <div class="archive-pair">
+    <figure class="archive-print">
+      <img src="/images/van-early-days.webp" alt="An earlier blue van with Excel Roofing painted across the bonnet" width="900" height="788" loading="eager" decoding="async" />
+      <figcaption>The early days</figcaption>
+    </figure>
+    <figure class="archive-print portrait">
+      <img src="/images/stuart-2010.webp" alt="Stuart cutting the Excel Roofing 21st anniversary cake in 2010" width="675" height="900" loading="eager" decoding="async" />
+      <figcaption>Stuart, 2010</figcaption>
+    </figure>
+  </div>
 </div>
 
 <style>
@@ -18,15 +24,28 @@
     width: 100%;
     height: auto;
   }
+  .archive-pair {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: clamp(12px, 3%, 22px);
+    margin: max(-13%, -76px) 4% 0;
+  }
+  .archive-print.portrait {
+    --tilt: 2deg;
+    width: min(30%, 148px);
+  }
   .archive-print {
     position: relative;
     box-sizing: border-box;
-    width: clamp(128px, 37%, 220px);
-    margin: max(-16%, -100px) 4% 0 auto;
+    --tilt: -3deg;
+    width: min(43%, 205px);
+    margin: 0;
     padding: 7px 7px 0;
     background: #fffdfa;
     box-shadow: 0 3px 14px rgb(16 38 77 / 18%);
-    transform: rotate(3deg);
+    transform: rotate(var(--tilt));
   }
   .archive-print img {
     display: block;
@@ -41,7 +60,7 @@
   }
   @media (max-width: 700px) {
     .archive-print {
-      margin-top: -11%;
+
       padding: 5px 5px 0;
     }
   }

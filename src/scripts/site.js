@@ -259,7 +259,7 @@ if (document.documentElement.classList.contains('js-motion')) {
  const photoObserver = new IntersectionObserver(entries => {
   for (const entry of entries) {
    if (entry.intersectionRatio < 0.18) continue;
-   if (entry.target.matches('.archive-print')) entry.target.previousElementSibling.classList.add('visible');
+   if (entry.target.matches('.archive-print')) entry.target.closest('.van-story').querySelector('.modern-frame').classList.add('visible');
    entry.target.classList.add('visible');
    photoObserver.unobserve(entry.target);
   }
