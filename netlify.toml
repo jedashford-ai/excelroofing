@@ -17,3 +17,8 @@ Cache-Control = "public, max-age=86400"
 from = "/thank-you"
 to = "/#contact"
 status = 301
+
+[[redirects]]
+from = "/contact-roofing-staffordshire.php"
+to = "/#contact"
+status = 301
