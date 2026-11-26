@@ -411,3 +411,9 @@ body:has(dialog[open]) .floating-call{visibility:hidden}
     @keyframes roof-scroll { to { translate: 0 var(--roof-travel, 24px); } }
   }
 }
+
+.hero-actions .hero-mobile-contact { display: none; }
+@media (max-width: 760px) {
+  .hero-actions .hero-desktop-contact { display: none; }
+  .hero-actions .hero-mobile-contact { display: inline-flex; }
+}

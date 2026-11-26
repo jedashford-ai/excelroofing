@@ -332,3 +332,14 @@ for (const button of controls.querySelectorAll('button')) {
 }
 window.addEventListener('resize',updateProjectCounter);
 configureGallery();
+
+document.addEventListener('click', event => {
+ const link = event.target.closest?.('a[href]');
+ if (!link) return;
+ const types = {
+  'tel:07973673255': 'mobile',
+  'tel:01543433289': 'landline'
+ };
+ const type = link.origin === 'https://wa.me' ? 'whatsapp' : types[link.href];
+ if (type) navigator.sendBeacon('/.netlify/functions/contact-tap', type);
+});
